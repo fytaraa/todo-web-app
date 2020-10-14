@@ -37362,6 +37362,7 @@ function deleteNote() {
     let id = $("#id_to_delete").text();
     $.get("/delete/"+id,function () {
         $("#"+id+"item").remove();
+        $("."+id).remove();
     })
     $('#myModal').modal('hide');
 }

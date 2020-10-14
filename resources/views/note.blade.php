@@ -19,7 +19,7 @@
                                 </form>
                             </div>
                             <div class="list-wrapper">
-                                <ul class="d-flex flex-column-reverse todo-list">
+                                <ul class="d-flex flex-column todo-list">
                                     <!-- The Modal -->
                                     <div class="modal" id="myModal">
                                         <div class="modal-dialog">
@@ -28,7 +28,8 @@
                                                 <!-- Modal Header -->
                                                 <div class="modal-header">
                                                     <h4 class="modal-title">Delete</h4>
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;
+                                                    </button>
                                                 </div>
 
                                                 <!-- Modal body -->
@@ -39,8 +40,12 @@
 
                                                 <!-- Modal footer -->
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
-                                                    <button type="button" class="btn btn-success" onclick="deleteNote()" >Yes</button>
+                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                                        No
+                                                    </button>
+                                                    <button type="button" class="btn btn-success"
+                                                            onclick="deleteNote()">Yes
+                                                    </button>
                                                 </div>
 
                                             </div>
@@ -54,11 +59,10 @@
                                                             class="checkbox"
                                                             type="checkbox"
                                                             onclick="checkItem({{$note->id}},{{$note->isChecked}})"
-                                                        id="{{$note->id}}">
+                                                            id="{{$note->id}}">
                                                         {{$note->content}}<i
                                                             class="input-helper"></i></label></div>
-                                                <i onclick="showModal({{$note->id}})"  class="remove mdi mdi-close-circle-outline"></i>
-                                            </li>
+
                                         @else
                                             <li class="completed" id="{{$note->id . "item"}}">
                                                 <div class="form-check"><label class="form-check-label"> <input
@@ -66,15 +70,36 @@
                                                             type="checkbox"
                                                             checked=""
                                                             onclick="checkItem({{$note->id}},{{$note->isChecked}})"
-                                                        id="{{$note->id}}">
+                                                            id="{{$note->id}}">
                                                         {{$note->content}}<i
                                                             class="input-helper"></i></label></div>
-                                                <i onclick="showModal({{$note->id}})" class="remove mdi mdi-close-circle-outline"></i>
+
+                                                @endif
+                                                <i onclick="showModal({{$note->id}})"
+                                                   class="remove mdi mdi-close-circle-outline"></i>
                                             </li>
-                                        @endif
+                                            <form action="/addComment" method="post" class="{{$note->id}}">
+                                                @csrf
+                                                <label>
+                                                    <input type="text" placeholder="comment" required
+                                                           class="form-control todo-list-input " name="comment" id="comment">
+                                                </label>
+                                                <input type="hidden" name="note_id" value="{{$note->id}}">
+                                                <input type="submit" value="add"
+                                                       class="add btn btn-primary font-weight-bold todo-list-add-btn">
+                                            </form>
+                                            <div>
+                                                <ul>
+                                                    @foreach($comments as $comment)
 
+                                                        @if($comment->note_id == $note->id)
+                                                            <li class="{{$note->id}}" style="color: red">- {{$comment->comment}}</li>
+                                                        @endif
 
-                                    @endforeach
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                            @endforeach
                                 </ul>
                             </div>
                         </div>

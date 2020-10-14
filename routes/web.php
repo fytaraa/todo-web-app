@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 Route::get('/', [NotesController::class,'show']);
 Route::post('/',[NotesController::class ,'add']);
+Route::post('/addComment',[NotesController::class ,'addComment']);
 Route::get('/update/{id}/{checked}',[NotesController::class,'update']);
 Route::get('/delete/{id}',[NotesController::class,'delete']);
 

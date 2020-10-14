@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Note;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -13,11 +14,11 @@ class NotesController extends Controller
     {
         $this->middleware('auth');
     }
-
     public function show(){
-        $notes = Note::where('user_id' ,Auth::id())->get();
+        $notes = Note::where('user_id' ,Auth::id())->orderBy('created_at','DESC')->get();
+        $comments = Comment::all();
 //        $notes = Note::all();
-        return view('note',['notes'=>$notes]);
+        return view('note',['notes'=>$notes, 'comments'=>$comments]);
     }
     public function add(){
 
@@ -26,6 +27,14 @@ class NotesController extends Controller
         $note->isChecked = 0;
         $note->user_id = Auth::id();
         $note->save();
+        return redirect('/');
+    }
+    public function addComment(){
+
+        $comments = new Comment();
+        $comments->comment = \request('comment');
+        $comments->note_id = \request('note_id');
+        $comments->save();
         return redirect('/');
     }
     public function update($id,$checked){
@@ -38,6 +47,7 @@ class NotesController extends Controller
     public function delete($id){
 
         Note::find($id)->delete();
+        Comment::where('note_id',$id)->delete();
         return redirect('/');
     }
 }
