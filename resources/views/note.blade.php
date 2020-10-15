@@ -18,39 +18,40 @@
                                            class="add btn btn-primary font-weight-bold todo-list-add-btn">
                                 </form>
                             </div>
+                            <!-- The Modal -->
+                            <div class="modal" id="myModal">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+
+                                        <!-- Modal Header -->
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Delete</h4>
+                                            <button type="button" class="close" data-dismiss="modal">&times;
+                                            </button>
+                                        </div>
+
+                                        <!-- Modal body -->
+                                        <div class="modal-body">
+                                            Do you want to delete this item ?
+                                        </div>
+                                        <p hidden id="id_to_delete"></p>
+
+                                        <!-- Modal footer -->
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                                No
+                                            </button>
+                                            <button type="button" class="btn btn-success"
+                                                    onclick="deleteNote()">Yes
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
                             <div class="list-wrapper">
                                 <ul class="d-flex flex-column todo-list">
-                                    <!-- The Modal -->
-                                    <div class="modal" id="myModal">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
 
-                                                <!-- Modal Header -->
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">Delete</h4>
-                                                    <button type="button" class="close" data-dismiss="modal">&times;
-                                                    </button>
-                                                </div>
-
-                                                <!-- Modal body -->
-                                                <div class="modal-body">
-                                                    Do you want to delete this item ?
-                                                </div>
-                                                <p hidden id="id_to_delete"></p>
-
-                                                <!-- Modal footer -->
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">
-                                                        No
-                                                    </button>
-                                                    <button type="button" class="btn btn-success"
-                                                            onclick="deleteNote()">Yes
-                                                    </button>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
                                     @foreach($notes as $note)
 
                                         @if($note->isChecked == 0)
@@ -75,30 +76,36 @@
                                                             class="input-helper"></i></label></div>
 
                                                 @endif
+                                                <!-- Comments Section-->
+                                                <img id="{{$note->id}}commentsIcon" src="images/keyboard_arrow_down-24px.svg" alt="open comments"
+                                                onclick="showComment({{$note->id}})">
                                                 <i onclick="showModal({{$note->id}})"
                                                    class="remove mdi mdi-close-circle-outline"></i>
+
                                             </li>
+                                        <div id="{{$note->id}}commentSection" class="comment-section">
                                             <form action="/addComment" method="post" class="{{$note->id}}">
                                                 @csrf
                                                 <label>
-                                                    <input type="text" placeholder="comment" required
+                                                    <input style="border:none; text-decoration-color: gray" type="text" placeholder="type your comment" required
                                                            class="form-control todo-list-input " name="comment" id="comment">
                                                 </label>
                                                 <input type="hidden" name="note_id" value="{{$note->id}}">
-                                                <input type="submit" value="add"
-                                                       class="add btn btn-primary font-weight-bold todo-list-add-btn">
+                                                <input hidden class="btn btn-outline-dark" style="border: none" type="submit" value="add comment"
+                                                       >
                                             </form>
-                                            <div>
-                                                <ul>
-                                                    @foreach($comments as $comment)
+                                            <ul style="padding-left: 30px">
+                                                @foreach($comments as $comment)
 
-                                                        @if($comment->note_id == $note->id)
-                                                            <li class="{{$note->id}}" style="color: red">- {{$comment->comment}}</li>
-                                                        @endif
+                                                    @if($comment->note_id == $note->id)
+                                                        <li class="{{$note->id}}" style="color: #000000; "> {{$comment->comment}}</li>
+                                                    @endif
 
-                                                    @endforeach
-                                                </ul>
-                                            </div>
+                                                @endforeach
+                                            </ul>
+
+                                        </div>
+
                                             @endforeach
                                 </ul>
                             </div>

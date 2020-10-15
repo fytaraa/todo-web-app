@@ -45,7 +45,6 @@ class NotesController extends Controller
         return redirect('/');
     }
     public function delete($id){
-
         Note::find($id)->delete();
         Comment::where('note_id',$id)->delete();
         return redirect('/');

@@ -37339,6 +37339,7 @@ module.exports = __webpack_require__(/*! C:\Users\Fytaraa\Documents\laravel\demo
 
 /******/ });
 $(document).ready(function(){
+    $(".comment-section").hide()
     $('input:checkbox').change(function(){
         var id = $(this).attr('id');
         if($(this).is(":checked")) {
@@ -37348,6 +37349,7 @@ $(document).ready(function(){
         }
     });
 });
+
 function checkItem(id,checked) {
     if (checked>0){
         checked= 0
@@ -37358,6 +37360,18 @@ function checkItem(id,checked) {
     })
 
 }
+function showComment(id){
+    if ($('#'+id+'commentsIcon').attr('src') == "images/keyboard_arrow_down-24px.svg"){
+        $('#'+id+'commentSection').show();
+        $('#'+id+'commentsIcon').attr('src',"images/keyboard_arrow_up-24px.svg");
+    }
+    else if($('#'+id+'commentsIcon').attr('src') == "images/keyboard_arrow_up-24px.svg") {
+        $('#'+id+'commentSection').hide();
+        $('#'+id+'commentsIcon').attr('src',"images/keyboard_arrow_down-24px.svg");
+    }
+}
+
+
 function deleteNote() {
     let id = $("#id_to_delete").text();
     $.get("/delete/"+id,function () {
