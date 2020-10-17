@@ -8,11 +8,11 @@
                         <div class="card-body">
                             <h4 class="card-title">Awesome Todo list</h4>
                             <div class="add-items d-flex">
-                                <form action="/" method="post">
+                                <form action="/" method="post" style="width:100%">
                                     @csrf
                                     <label>
-                                        <input type="text" placeholder="What do you need to do today?" required
-                                               class="form-control todo-list-input" name="content" id="content">
+                                        <input type="text" placeholder="To-Do ...." required
+                                               class="form-control todo-list-input"   name="content" id="content">
                                     </label>
                                     <input type="submit" value="add"
                                            class="add btn btn-primary font-weight-bold todo-list-add-btn">
@@ -102,12 +102,18 @@
                                                     @foreach($comments as $comment)
 
                                                         @if($comment->note_id == $note->id)
-                                                        <div style="padding-left: 30px;" class="border border-light rounded">
-                                                            <h5 class="{{$note->id}} "
-                                                                style="color: #000000; "> {{$comment->comment}}</h5>
-                                                            <p class="text-right" >{{$comment->created_at}}</p>
+                                                        <div class="comment-widgets {{$comment->id}} {{$note->id}} ">
+                                                            <!-- Comment Row -->
+                                                            <div class="d-flex flex-row comment-row m-t-0">
+
+                                                                <div class="comment-text w-100">
+                                                                  <span class="m-b-15 d-block">{{$comment->comment}}</span>
+                                                                    <div class="comment-footer"> <span class="text-muted float-right">{{$comment->created_at}}</span>
+                                                                        <button type="button" class="btn btn-danger btn-sm" onclick="deleteComment({{$comment->id}})">Delete</button> </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <br>
+
                                                         @endif
 
                                                     @endforeach

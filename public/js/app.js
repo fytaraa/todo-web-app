@@ -37385,6 +37385,10 @@ function showModal(id){
     $('#myModal').modal('show');
 }
 
-
+function deleteComment(commentId){
+    $.get("/delete/comment/"+commentId,function () {
+        $("." + commentId).remove();
+    })
+}
 
 

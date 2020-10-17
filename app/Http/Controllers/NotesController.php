@@ -49,4 +49,8 @@ class NotesController extends Controller
         Comment::where('note_id',$id)->delete();
         return redirect('/');
     }
+    public function deleteComment($commentId){
+        Comment::find($commentId)->delete();
+        return redirect('/');
+    }
 }

@@ -21,7 +21,7 @@ Route::post('/',[NotesController::class ,'add']);
 Route::post('/addComment',[NotesController::class ,'addComment']);
 Route::get('/update/{id}/{checked}',[NotesController::class,'update']);
 Route::get('/delete/{id}',[NotesController::class,'delete']);
-
+Route::get('/delete/comment/{id}',[NotesController::class,'deleteComment']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('note');
 
