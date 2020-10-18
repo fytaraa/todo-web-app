@@ -7,6 +7,7 @@ use App\Models\Note;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PHPUnit\Framework\Constraint\Count;
 
 class NotesController extends Controller
 {
@@ -19,6 +20,16 @@ class NotesController extends Controller
         $comments = Comment::all();
 //        $notes = Note::all();
         return view('note',['notes'=>$notes, 'comments'=>$comments]);
+    }
+    public function dashboard(){
+        $users = User::where('isAdmin',1)->get();
+        $numOfUsers = Count(User::all());
+        $numOfNotes = Count(Note::all());
+        $numOfComments = Count(Comment::all());
+        if (Auth::user()->isAdmin == 1){
+            return view('dashboard',['numOfUsers' =>$numOfUsers,'numOfNotes'=>$numOfNotes,'numOfComments'=>$numOfComments,'users'=>$users]);
+        }
+        return $this->show();
     }
     public function add(){
 
@@ -52,5 +63,11 @@ class NotesController extends Controller
     public function deleteComment($commentId){
         Comment::find($commentId)->delete();
         return redirect('/');
+    }
+    public function removeAdmin($user_id){
+        $user = User::find($user_id);
+        $user->isAdmin = 0;
+        $user->save();
+        return redirect('/admin');
     }
 }

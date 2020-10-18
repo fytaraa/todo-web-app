@@ -37370,7 +37370,12 @@ function showComment(id){
         $('#'+id+'commentsIcon').attr('src',"images/keyboard_arrow_down-24px.svg");
     }
 }
+function removeAdmin(user_id){
 
+    $.get("/admin/remove/"+user_id,function () {
+        $('.'+user_id).remove();
+    })
+}
 
 function deleteNote() {
     let id = $("#id_to_delete").text();
