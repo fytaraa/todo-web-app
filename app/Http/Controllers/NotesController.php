@@ -70,4 +70,11 @@ class NotesController extends Controller
         $user->save();
         return redirect('/admin');
     }
+    public function addAdmin(){
+        $email = \request('email');
+        $user = User::where('email',$email)->first();
+        $user->isAdmin = 1;
+        $user->save();
+        return redirect('/admin');
+    }
 }

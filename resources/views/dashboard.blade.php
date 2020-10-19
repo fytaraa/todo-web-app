@@ -97,6 +97,12 @@
                     </div>
                     @endforeach
                 </div></div></div></div>
+    <form action="/admin" method="post">
+        @csrf
+        <input type="text" name="email" id="email" placeholder="type the admin email">
+        <input type="submit" value="add">
+    </form>
+
 
 </body>
 </html>
