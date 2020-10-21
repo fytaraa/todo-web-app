@@ -17,3 +17,5 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::get('data',[\App\Http\Controllers\NotesController::class,'getData']);
+Route::post('add1',[\App\Http\Controllers\NotesController::class,'postData']);

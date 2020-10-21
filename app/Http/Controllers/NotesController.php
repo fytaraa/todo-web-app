@@ -11,10 +11,10 @@ use PHPUnit\Framework\Constraint\Count;
 
 class NotesController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+//    public function __construct()
+//    {
+//        $this->middleware('auth');
+//    }
     public function show(){
         $notes = Note::where('user_id' ,Auth::id())->orderBy('created_at','DESC')->get();
         $comments = Comment::all();
@@ -76,5 +76,19 @@ class NotesController extends Controller
         $user->isAdmin = 1;
         $user->save();
         return redirect('/admin');
+    }
+    public function getData(){
+        return Note::all();
+    }
+    public function postData(Request $req){
+        $note = new Note();
+        $note->user_id = $req->user_id;
+        $note->content = $req->note;
+        $note->isChecked = $req->isChecked;
+        $result = $note->save();
+        if($result){
+            return ['Result'=>'results is saved ...'];
+        }
+        return ['Result'=>'results is Not saved ...'];
     }
 }
